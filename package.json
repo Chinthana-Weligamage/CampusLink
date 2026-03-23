@@ -1,0 +1,26 @@
+{
+  "name": "sliit-campuslink",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SLIIT CampusLink (Malabe) microservices MVP backend",
+  "workspaces": [
+    "gateway",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:user": "node services/user-service/src/server.js",
+    "dev:transport": "node services/transport-service/src/server.js",
+    "dev:assignment": "node services/assignment-service/src/server.js",
+    "dev:notification": "node services/notification-service/src/server.js",
+    "dev:gateway": "node gateway/server.js",
+    "dev:all": "node scripts/dev-all.mjs",
+    "test:all": "npm run test --workspaces --if-present",
+    "smoke": "node scripts/smoke-test.mjs",
+    "lint": "node scripts/lint.mjs",
+    "verify:docs": "node scripts/verify-docs.mjs"
+  },
+  "engines": {
+    "node": "24.x"
+  }
+}
