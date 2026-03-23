@@ -1,0 +1,11 @@
+db:
+  redis:
+    emulate: true
+
+plugins:
+  cors:
+    package: express-gateway-plugin-cors
+  log:
+    package: express-gateway-plugin-log
+  proxy:
+    package: express-gateway-plugin-proxy
