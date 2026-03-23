@@ -1,0 +1,70 @@
+http:
+  port: ${GATEWAY_PORT:-8080}
+
+serviceEndpoints:
+  user:
+    url: ${USER_SERVICE_URL:-http://localhost:3001}
+  transport:
+    url: ${TRANSPORT_SERVICE_URL:-http://localhost:3002}
+  assignment:
+    url: ${ASSIGNMENT_SERVICE_URL:-http://localhost:3003}
+  notification:
+    url: ${NOTIFICATION_SERVICE_URL:-http://localhost:3004}
+
+apiEndpoints:
+  user:
+    host: localhost
+    paths: /user/*
+  transport:
+    host: localhost
+    paths: /transport/*
+  assignment:
+    host: localhost
+    paths: /assignment/*
+  notification:
+    host: localhost
+    paths: /notification/*
+
+policies:
+  - cors
+  - log
+  - proxy
+  - rate-limit
+
+pipelines:
+  user:
+    apiEndpoints:
+      - user
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: user
+              stripPath: true
+              prependPath: false
+  transport:
+    apiEndpoints:
+      - transport
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: transport
+              stripPath: true
+              prependPath: false
+  assignment:
+    apiEndpoints:
+      - assignment
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: assignment
+              stripPath: true
+              prependPath: false
+  notification:
+    apiEndpoints:
+      - notification
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: notification
+              stripPath: true
+              prependPath: false
