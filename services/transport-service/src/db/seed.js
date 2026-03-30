@@ -1,5 +1,4 @@
 const { getDb } = require('./connection');
-const { createId } = require('../utils/id');
 
 function seed() {
   const db = getDb();
@@ -8,14 +7,14 @@ function seed() {
   if (routeCount === 0) {
     const insertRoute = db.prepare('INSERT INTO routes (id, name, origin, destination) VALUES (?, ?, ?, ?)');
     const routes = [
-      ['Kottawa Express', 'Kottawa', 'SLIIT Malabe'],
-      ['Makumbura Shuttle', 'Makumbura', 'SLIIT Malabe'],
-      ['Kaduwela Connector', 'Kaduwela', 'SLIIT Malabe'],
-      ['Battaramulla Line', 'Battaramulla', 'SLIIT Malabe']
+      ['RTE-001', 'Kottawa Express', 'Kottawa', 'SLIIT Malabe'],
+      ['RTE-002', 'Makumbura Shuttle', 'Makumbura', 'SLIIT Malabe'],
+      ['RTE-003', 'Kaduwela Connector', 'Kaduwela', 'SLIIT Malabe'],
+      ['RTE-004', 'Battaramulla Line', 'Battaramulla', 'SLIIT Malabe']
     ];
 
-    for (const [name, origin, destination] of routes) {
-      insertRoute.run(createId('RTE'), name, origin, destination);
+    for (const [id, name, origin, destination] of routes) {
+      insertRoute.run(id, name, origin, destination);
     }
   }
 
@@ -28,10 +27,11 @@ function seed() {
         id, routeId, departureTime, arrivalTime, travelDate, totalSeats, availableSeats, status
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
+    let scheduleNumber = 1;
 
     for (const route of routes) {
       insertSchedule.run(
-        createId('SCH'),
+        `SCH-${String(scheduleNumber++).padStart(3, '0')}`,
         route.id,
         '07:30',
         '08:15',
@@ -42,7 +42,7 @@ function seed() {
       );
 
       insertSchedule.run(
-        createId('SCH'),
+        `SCH-${String(scheduleNumber++).padStart(3, '0')}`,
         route.id,
         '16:30',
         '17:15',

@@ -9,6 +9,10 @@ function listSchedulesByRouteId(routeId) {
   return getDb().prepare('SELECT * FROM schedules WHERE routeId = ? ORDER BY departureTime').all(routeId);
 }
 
+function getRouteById(routeId) {
+  return getDb().prepare('SELECT * FROM routes WHERE id = ?').get(routeId);
+}
+
 function getScheduleById(scheduleId) {
   return getDb().prepare(`
     SELECT schedules.*, routes.name AS routeName, routes.origin, routes.destination
@@ -138,6 +142,7 @@ module.exports = {
   cancelBooking,
   createAnnouncement,
   createBooking,
+  getRouteById,
   getScheduleById,
   listBookingsByUser,
   listRoutes,
