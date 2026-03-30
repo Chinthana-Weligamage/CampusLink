@@ -18,6 +18,7 @@ seed();
 
 const app = createApp();
 const studentToken = jwt.sign({ sub: 'USR-STUDENT', role: 'student', email: 'student@my.sliit.lk' }, process.env.JWT_SECRET);
+const adminToken = jwt.sign({ sub: 'USR-ADMIN', role: 'admin', email: 'admin@my.sliit.lk' }, process.env.JWT_SECRET);
 
 test('GET /health returns ok', async () => {
   const response = await request(app).get('/health');
@@ -42,4 +43,19 @@ test('POST /bookings validates payload', async () => {
     .send({});
 
   assert.equal(response.statusCode, 422);
+});
+
+test('POST /announcements returns 404 for an unknown route', async () => {
+  const response = await request(app)
+    .post('/announcements')
+    .set('Authorization', `Bearer ${adminToken}`)
+    .send({
+      routeId: 'RTE-999',
+      title: 'Morning shuttle delayed',
+      message: 'The shuttle will leave 15 minutes later than usual.',
+      type: 'delay'
+    });
+
+  assert.equal(response.statusCode, 404);
+  assert.equal(response.body.error.code, 'ROUTE_NOT_FOUND');
 });

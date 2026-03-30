@@ -29,14 +29,22 @@ function createOpenApi() {
           type: 'object',
           required: ['scheduleId'],
           properties: {
-            scheduleId: { type: 'string', example: 'SCH-001' }
+            scheduleId: {
+              type: 'string',
+              description: 'Use a real schedule ID from GET /routes/{routeId}/schedules. The seeded demo DB includes SCH-001 to SCH-008 after a reset.',
+              example: 'SCH-003'
+            }
           }
         },
         AnnouncementRequest: {
           type: 'object',
           required: ['title', 'message', 'type'],
           properties: {
-            routeId: { type: 'string', example: 'RTE-001' },
+            routeId: {
+              type: 'string',
+              description: 'Optional route scope. Use a real route ID from GET /routes. The seeded demo DB includes RTE-001 to RTE-004 after a reset.',
+              example: 'RTE-002'
+            },
             targetUserId: { type: 'string', example: 'USR-a1b2c3d4' },
             title: { type: 'string', example: 'Makumbura shuttle delayed' },
             message: { type: 'string', example: 'The 7:30 AM shuttle will depart 15 minutes late.' },
@@ -51,7 +59,7 @@ function createOpenApi() {
               type: 'object',
               properties: {
                 id: { type: 'string', example: 'BKG-001' },
-                scheduleId: { type: 'string', example: 'SCH-001' },
+                scheduleId: { type: 'string', example: 'SCH-003' },
                 userId: { type: 'string', example: 'USR-a1b2c3d4' },
                 routeName: { type: 'string', example: 'Makumbura Shuttle' },
                 departureTime: { type: 'string', example: '07:30' },
