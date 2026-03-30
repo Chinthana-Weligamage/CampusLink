@@ -1,9 +1,10 @@
-const { postInternalEvent } = require('@campuslink/shared');
+const { AppError, postInternalEvent } = require('@campuslink/shared');
 const { env } = require('../config/env');
 const {
   cancelBooking,
   createAnnouncement,
   createBooking,
+  getRouteById,
   getScheduleById,
   listBookingsByUser,
   listRoutes,
@@ -79,6 +80,10 @@ async function cancelUserBooking(bookingId, user, logger) {
 }
 
 async function publishAnnouncement(user, payload, logger) {
+  if (payload.routeId && !getRouteById(payload.routeId)) {
+    throw new AppError(404, 'ROUTE_NOT_FOUND', 'Route not found');
+  }
+
   const announcement = createAnnouncement({
     id: createId('ANN'),
     routeId: payload.routeId,
