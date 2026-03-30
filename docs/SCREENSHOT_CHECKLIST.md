@@ -2,8 +2,11 @@
 
 Use gateway URLs where possible so the screenshots show the integrated system. Keep one student JWT and one admin JWT ready in Swagger Authorize dialogs or Postman environment variables.
 
+Use these screenshot IDs in filenames, slide references, and the final report so each capture is easy to trace.
+
 ## 1. Gateway Home And Route Map
 
+- Screenshot ID: `SS-01`
 - URL: `http://localhost:8080/`
 - Steps:
   1. Start gateway and all four services.
@@ -13,6 +16,7 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ## 2. User Service Swagger UI
 
+- Screenshot ID: `SS-02`
 - URL: `http://localhost:3001/docs`
 - Steps:
   1. Open the direct User Service Swagger page.
@@ -45,6 +49,7 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ## 3. Transport Service Swagger UI
 
+- Screenshot ID: `SS-03`
 - URL: `http://localhost:3002/docs`
 - Steps:
   1. Open the direct Transport Service Swagger page.
@@ -54,7 +59,7 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ```json
 {
-  "scheduleId": "sch_1001"
+  "scheduleId": "SCH-003"
 }
 ```
 
@@ -62,15 +67,18 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ```json
 {
-  "routeId": "rt_1001",
+  "routeId": "RTE-002",
   "title": "Morning shuttle delayed",
   "message": "The Malabe to Metro Campus shuttle will leave 15 minutes later than usual.",
   "type": "delay"
 }
 ```
 
+- Demo note: after `npm run db:reset:transport`, the seeded transport IDs are stable as `RTE-001` to `RTE-004` and `SCH-001` to `SCH-008`.
+
 ## 4. Assignment Service Swagger UI
 
+- Screenshot ID: `SS-04`
 - URL: `http://localhost:3003/docs`
 - Steps:
   1. Open the direct Assignment Service Swagger page.
@@ -98,6 +106,7 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ## 5. Notification Service Swagger UI
 
+- Screenshot ID: `SS-05`
 - URL: `http://localhost:3004/docs`
 - Steps:
   1. Open the direct Notification Service Swagger page.
@@ -114,7 +123,7 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
   "message": "Your seat has been booked for the morning shuttle.",
   "payload": {
     "bookingId": "bk_1001",
-    "scheduleId": "sch_1001"
+    "scheduleId": "SCH-003"
   },
   "occurredAt": "2026-03-30T09:00:00+05:30"
 }
@@ -132,6 +141,11 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ## 6. Gateway-Proxied Swagger UI For Each Service
 
+- Screenshot IDs:
+  - `SS-06A` for User Service via gateway
+  - `SS-06B` for Transport Service via gateway
+  - `SS-06C` for Assignment Service via gateway
+  - `SS-06D` for Notification Service via gateway
 - URLs:
   - `http://localhost:8080/user/docs`
   - `http://localhost:8080/transport/docs`
@@ -145,6 +159,10 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ## 7. User Registration And Login Success
 
+- Screenshot IDs:
+  - `SS-07A` for registration success
+  - `SS-07B` for login success
+  - `SS-07C` for optional `GET /me`
 - Recommended URL: `http://localhost:8080/user/docs`
 - Steps:
   1. Run `POST /register` with the student payload below and capture the `201` response.
@@ -177,6 +195,7 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ## 8. Shuttle Booking Success
 
+- Screenshot ID: `SS-08`
 - Recommended URL: `http://localhost:8080/transport/docs`
 - Steps:
   1. Log in as the student and copy the JWT.
@@ -187,12 +206,13 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ```json
 {
-  "scheduleId": "sch_1001"
+  "scheduleId": "SCH-003"
 }
 ```
 
 ## 9. Notification List After Booking
 
+- Screenshot ID: `SS-09`
 - Recommended URL: `http://localhost:8080/notification/docs`
 - Steps:
   1. Complete the shuttle booking screenshot first.
@@ -210,6 +230,7 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ## 10. SSE Stream Receiving A Live Event
 
+- Screenshot ID: `SS-10`
 - Recommended URL: `http://localhost:8080/notification/stream`
 - Steps:
   1. Open an SSE client, browser tab, or Postman request for `GET /stream` with the student bearer token.
@@ -235,6 +256,9 @@ Use gateway URLs where possible so the screenshots show the integrated system. K
 
 ## 11. Assignment Creation And Submission Success
 
+- Screenshot IDs:
+  - `SS-11A` for assignment creation
+  - `SS-11B` for assignment submission
 - Recommended URL: `http://localhost:8080/assignment/docs`
 - Steps:
   1. Log in as an admin user and authorize Swagger.
