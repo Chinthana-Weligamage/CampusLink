@@ -9,11 +9,11 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:user": "node services/user-service/src/server.js",
-    "dev:transport": "node services/transport-service/src/server.js",
-    "dev:assignment": "node services/assignment-service/src/server.js",
-    "dev:notification": "node services/notification-service/src/server.js",
-    "dev:gateway": "node gateway/server.js",
+    "dev:user": "node --disable-warning=ExperimentalWarning services/user-service/src/server.js",
+    "dev:transport": "node --disable-warning=ExperimentalWarning services/transport-service/src/server.js",
+    "dev:assignment": "node --disable-warning=ExperimentalWarning services/assignment-service/src/server.js",
+    "dev:notification": "node --disable-warning=ExperimentalWarning services/notification-service/src/server.js",
+    "dev:gateway": "node --disable-warning=ExperimentalWarning gateway/server.js",
     "dev:all": "node scripts/dev-all.mjs",
     "test:all": "npm run test --workspaces --if-present",
     "smoke": "node scripts/smoke-test.mjs",
