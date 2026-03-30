@@ -47,5 +47,5 @@ npm install
 
 ## Documentation
 
-- Main implementation plan: `documentation/PLAN.md`
+- Main implementation plan: `docs/PLAN.md`
 - Assignment docs set: `docs/`

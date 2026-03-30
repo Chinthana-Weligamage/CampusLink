@@ -24,6 +24,36 @@ function createOpenApi() {
           scheme: 'bearer',
           bearerFormat: 'JWT'
         }
+      },
+      schemas: {
+        InternalEventRequest: {
+          type: 'object',
+          required: ['eventType', 'sourceService', 'userId', 'title', 'message', 'occurredAt'],
+          properties: {
+            eventType: { type: 'string', example: 'transport.booking.created' },
+            sourceService: { type: 'string', example: 'transport-service' },
+            userId: { type: 'string', example: 'USR-a1b2c3d4' },
+            title: { type: 'string', example: 'Shuttle booking confirmed' },
+            message: { type: 'string', example: 'Your 7:30 AM shuttle booking is confirmed.' },
+            payload: {
+              type: 'object',
+              additionalProperties: true,
+              example: {
+                bookingId: 'BKG-001',
+                scheduleId: 'SCH-001'
+              }
+            },
+            occurredAt: { type: 'string', format: 'date-time', example: '2026-03-30T07:35:00+05:30' }
+          }
+        },
+        PreferenceUpdateRequest: {
+          type: 'object',
+          properties: {
+            transportEnabled: { type: 'boolean', example: true },
+            assignmentEnabled: { type: 'boolean', example: true },
+            systemEnabled: { type: 'boolean', example: false }
+          }
+        }
       }
     },
     paths: {
@@ -38,6 +68,14 @@ function createOpenApi() {
         post: {
           tags: ['Internal Events'],
           summary: 'Ingest an internal notification event',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/InternalEventRequest' }
+              }
+            }
+          },
           responses: { 201: { description: 'Event processed' } }
         }
       },
@@ -70,6 +108,14 @@ function createOpenApi() {
           tags: ['Preferences'],
           summary: 'Update notification preferences',
           security: [{ bearerAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/PreferenceUpdateRequest' }
+              }
+            }
+          },
           responses: { 200: { description: 'Preferences updated' } }
         }
       },
