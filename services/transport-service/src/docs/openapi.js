@@ -23,6 +23,44 @@ function createOpenApi() {
           scheme: 'bearer',
           bearerFormat: 'JWT'
         }
+      },
+      schemas: {
+        BookingRequest: {
+          type: 'object',
+          required: ['scheduleId'],
+          properties: {
+            scheduleId: { type: 'string', example: 'SCH-001' }
+          }
+        },
+        AnnouncementRequest: {
+          type: 'object',
+          required: ['title', 'message', 'type'],
+          properties: {
+            routeId: { type: 'string', example: 'RTE-001' },
+            targetUserId: { type: 'string', example: 'USR-a1b2c3d4' },
+            title: { type: 'string', example: 'Makumbura shuttle delayed' },
+            message: { type: 'string', example: 'The 7:30 AM shuttle will depart 15 minutes late.' },
+            type: { type: 'string', enum: ['delay', 'cancellation', 'general'], example: 'delay' }
+          }
+        },
+        BookingResponse: {
+          type: 'object',
+          properties: {
+            success: { type: 'boolean', example: true },
+            data: {
+              type: 'object',
+              properties: {
+                id: { type: 'string', example: 'BKG-001' },
+                scheduleId: { type: 'string', example: 'SCH-001' },
+                userId: { type: 'string', example: 'USR-a1b2c3d4' },
+                routeName: { type: 'string', example: 'Makumbura Shuttle' },
+                departureTime: { type: 'string', example: '07:30' },
+                travelDate: { type: 'string', example: '2026-03-30' },
+                status: { type: 'string', example: 'confirmed' }
+              }
+            }
+          }
+        }
       }
     },
     paths: {
@@ -60,7 +98,24 @@ function createOpenApi() {
           tags: ['Bookings'],
           summary: 'Book a shuttle seat',
           security: [{ bearerAuth: [] }],
-          responses: { 201: { description: 'Booking created' } }
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/BookingRequest' }
+              }
+            }
+          },
+          responses: {
+            201: {
+              description: 'Booking created',
+              content: {
+                'application/json': {
+                  schema: { $ref: '#/components/schemas/BookingResponse' }
+                }
+              }
+            }
+          }
         }
       },
       '/users/{userId}/bookings': {
@@ -84,6 +139,14 @@ function createOpenApi() {
           tags: ['Announcements'],
           summary: 'Create a transport announcement',
           security: [{ bearerAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/AnnouncementRequest' }
+              }
+            }
+          },
           responses: { 201: { description: 'Announcement created' } }
         }
       }
