@@ -28,8 +28,16 @@ function createApp() {
   });
 
   app.get('/openapi.json', (req, res) => res.json(openApi));
-  app.get('/docs', (req, res) => res.redirect(301, '/docs/'));
-  app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApi));
+  app.use('/docs', (req, res, next) => {
+    const requestPath = req.originalUrl.split('?')[0];
+
+    if (requestPath === '/docs') {
+      const query = req.originalUrl.includes('?') ? req.originalUrl.slice(req.originalUrl.indexOf('?')) : '';
+      return res.redirect(301, `/docs/${query}`);
+    }
+
+    return next();
+  }, swaggerUi.serve, swaggerUi.setup(openApi));
   app.use('/', notificationRoutes);
 
   app.use(notFoundHandler);
