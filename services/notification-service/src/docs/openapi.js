@@ -7,6 +7,7 @@ function createOpenApi() {
       description: 'Notification storage, preferences, internal event ingestion, and SSE sync.'
     },
     servers: [
+      { url: './', description: 'Current access path (direct or gateway)' },
       { url: 'http://localhost:3004', description: 'Direct service access' },
       { url: 'http://localhost:8080/notification', description: 'Gateway access' }
     ],

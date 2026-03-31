@@ -24,6 +24,13 @@ test('GET /health returns ok', async () => {
   assert.equal(response.body.success, true);
 });
 
+test('GET /docs redirects to /docs/ for Swagger asset loading', async () => {
+  const response = await request(app).get('/docs');
+
+  assert.equal(response.statusCode, 301);
+  assert.equal(response.headers.location, '/docs/');
+});
+
 test('POST /register creates a student account', async () => {
   const response = await request(app)
     .post('/register')

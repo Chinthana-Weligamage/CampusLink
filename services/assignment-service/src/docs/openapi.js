@@ -7,6 +7,7 @@ function createOpenApi() {
       description: 'Modules, assignments, and submission tracking for CampusLink.'
     },
     servers: [
+      { url: './', description: 'Current access path (direct or gateway)' },
       { url: 'http://localhost:3003', description: 'Direct service access' },
       { url: 'http://localhost:8080/assignment', description: 'Gateway access' }
     ],

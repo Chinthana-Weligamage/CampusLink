@@ -25,6 +25,12 @@ test('GET /health returns ok', async () => {
   assert.equal(response.statusCode, 200);
 });
 
+test('GET /docs redirects to /docs/ for Swagger asset loading', async () => {
+  const response = await request(app).get('/docs');
+  assert.equal(response.statusCode, 301);
+  assert.equal(response.headers.location, '/docs/');
+});
+
 test('GET /routes returns seeded routes', async () => {
   const response = await request(app).get('/routes');
   assert.equal(response.statusCode, 200);

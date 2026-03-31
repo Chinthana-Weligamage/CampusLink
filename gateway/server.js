@@ -55,7 +55,32 @@ function filterRequestHeaders(headers) {
   return nextHeaders;
 }
 
-function filterResponseHeaders(headers) {
+function rewriteLocationHeader(location, req, prefix, baseUrl) {
+  if (!location) {
+    return location;
+  }
+
+  const gatewayOrigin = `${req.protocol}://${req.get('host')}`;
+
+  if (location.startsWith('/')) {
+    return `${gatewayOrigin}${prefix}${location}`;
+  }
+
+  try {
+    const upstreamOrigin = new URL(baseUrl).origin;
+    const absoluteLocation = new URL(location, baseUrl);
+
+    if (absoluteLocation.origin !== upstreamOrigin) {
+      return location;
+    }
+
+    return `${gatewayOrigin}${prefix}${absoluteLocation.pathname}${absoluteLocation.search}${absoluteLocation.hash}`;
+  } catch {
+    return location;
+  }
+}
+
+function filterResponseHeaders(headers, req, prefix, baseUrl) {
   const nextHeaders = {};
 
   for (const [key, value] of headers.entries()) {
@@ -63,7 +88,9 @@ function filterResponseHeaders(headers) {
       continue;
     }
 
-    nextHeaders[key] = value;
+    nextHeaders[key] = key === 'location'
+      ? rewriteLocationHeader(value, req, prefix, baseUrl)
+      : value;
   }
 
   return nextHeaders;
@@ -91,7 +118,7 @@ function proxy(prefix, baseUrl) {
 
     res.status(upstream.status);
 
-    for (const [key, value] of Object.entries(filterResponseHeaders(upstream.headers))) {
+    for (const [key, value] of Object.entries(filterResponseHeaders(upstream.headers, req, prefix, baseUrl))) {
       res.setHeader(key, value);
     }
 

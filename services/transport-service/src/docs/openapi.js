@@ -7,6 +7,7 @@ function createOpenApi() {
       description: 'Shuttle routes, schedules, bookings, and transport announcements.'
     },
     servers: [
+      { url: './', description: 'Current access path (direct or gateway)' },
       { url: 'http://localhost:3002', description: 'Direct service access' },
       { url: 'http://localhost:8080/transport', description: 'Gateway access' }
     ],

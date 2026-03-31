@@ -28,6 +28,7 @@ function createApp() {
   });
 
   app.get('/openapi.json', (req, res) => res.json(openApi));
+  app.get('/docs', (req, res) => res.redirect(301, '/docs/'));
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApi));
   app.use('/', notificationRoutes);
 

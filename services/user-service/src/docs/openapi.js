@@ -7,6 +7,7 @@ function createOpenApi() {
       description: 'Student registration, authentication, and profile management for SLIIT CampusLink.'
     },
     servers: [
+      { url: './', description: 'Current access path (direct or gateway)' },
       { url: 'http://localhost:3001', description: 'Direct service access' },
       { url: 'http://localhost:8080/user', description: 'Gateway access' }
     ],
