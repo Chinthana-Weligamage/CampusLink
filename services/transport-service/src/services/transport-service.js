@@ -5,7 +5,6 @@ const {
   createAnnouncement,
   createBooking,
   getRouteById,
-  getScheduleById,
   listBookingsByUser,
   listRoutes,
   listSchedulesByRouteId
