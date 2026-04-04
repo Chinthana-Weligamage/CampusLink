@@ -19,6 +19,28 @@ function createOpenApi() {
       { name: 'Realtime' }
     ],
     components: {
+      parameters: {
+        userId: {
+          name: 'userId',
+          in: 'path',
+          required: true,
+          description: 'User identifier whose notification data is being accessed.',
+          schema: {
+            type: 'string',
+            example: 'USR-001'
+          }
+        },
+        notificationId: {
+          name: 'notificationId',
+          in: 'path',
+          required: true,
+          description: 'Notification identifier.',
+          schema: {
+            type: 'string',
+            example: 'NTF-001'
+          }
+        }
+      },
       securitySchemes: {
         bearerAuth: {
           type: 'http',
@@ -85,6 +107,9 @@ function createOpenApi() {
           tags: ['Notifications'],
           summary: 'List notifications for a user',
           security: [{ bearerAuth: [] }],
+          parameters: [
+            { $ref: '#/components/parameters/userId' }
+          ],
           responses: { 200: { description: 'Notifications returned' } }
         }
       },
@@ -93,6 +118,9 @@ function createOpenApi() {
           tags: ['Notifications'],
           summary: 'Mark a notification as read',
           security: [{ bearerAuth: [] }],
+          parameters: [
+            { $ref: '#/components/parameters/notificationId' }
+          ],
           responses: { 200: { description: 'Notification updated' } }
         }
       },
@@ -101,6 +129,9 @@ function createOpenApi() {
           tags: ['Notifications'],
           summary: 'Mark all notifications as read',
           security: [{ bearerAuth: [] }],
+          parameters: [
+            { $ref: '#/components/parameters/userId' }
+          ],
           responses: { 200: { description: 'Notifications updated' } }
         }
       },
@@ -109,6 +140,9 @@ function createOpenApi() {
           tags: ['Preferences'],
           summary: 'Update notification preferences',
           security: [{ bearerAuth: [] }],
+          parameters: [
+            { $ref: '#/components/parameters/userId' }
+          ],
           requestBody: {
             required: true,
             content: {

@@ -31,6 +31,20 @@ test('GET /docs redirects to /docs/ for Swagger asset loading', async () => {
   assert.equal(response.headers.location, '/docs/');
 });
 
+test('GET /openapi.json exposes transport path parameters', async () => {
+  const response = await request(app).get('/openapi.json');
+
+  assert.equal(response.statusCode, 200);
+  assert.equal(
+    response.body.paths['/users/{userId}/bookings'].get.parameters[0].$ref,
+    '#/components/parameters/userId'
+  );
+  assert.equal(
+    response.body.paths['/bookings/{bookingId}/cancel'].patch.parameters[0].$ref,
+    '#/components/parameters/bookingId'
+  );
+});
+
 test('GET /routes returns seeded routes', async () => {
   const response = await request(app).get('/routes');
   assert.equal(response.statusCode, 200);
