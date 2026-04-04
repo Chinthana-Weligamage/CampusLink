@@ -23,6 +23,20 @@ test('GET /health returns ok', async () => {
   assert.equal(response.statusCode, 200);
 });
 
+test('GET /openapi.json exposes notification path parameters', async () => {
+  const response = await request(app).get('/openapi.json');
+
+  assert.equal(response.statusCode, 200);
+  assert.equal(
+    response.body.paths['/users/{userId}/notifications'].get.parameters[0].$ref,
+    '#/components/parameters/userId'
+  );
+  assert.equal(
+    response.body.paths['/notifications/{notificationId}/read'].patch.parameters[0].$ref,
+    '#/components/parameters/notificationId'
+  );
+});
+
 test('POST /internal/events requires internal token', async () => {
   const response = await request(app).post('/internal/events').send({});
   assert.equal(response.statusCode, 401);

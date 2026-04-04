@@ -18,6 +18,38 @@ function createOpenApi() {
       { name: 'Announcements' }
     ],
     components: {
+      parameters: {
+        routeId: {
+          name: 'routeId',
+          in: 'path',
+          required: true,
+          description: 'Route identifier.',
+          schema: {
+            type: 'string',
+            example: 'RTE-001'
+          }
+        },
+        userId: {
+          name: 'userId',
+          in: 'path',
+          required: true,
+          description: 'User identifier whose bookings should be returned.',
+          schema: {
+            type: 'string',
+            example: 'USR-001'
+          }
+        },
+        bookingId: {
+          name: 'bookingId',
+          in: 'path',
+          required: true,
+          description: 'Booking identifier to cancel.',
+          schema: {
+            type: 'string',
+            example: 'BKG-001'
+          }
+        }
+      },
       securitySchemes: {
         bearerAuth: {
           type: 'http',
@@ -92,12 +124,7 @@ function createOpenApi() {
           tags: ['Routes'],
           summary: 'List schedules for a route',
           parameters: [
-            {
-              name: 'routeId',
-              in: 'path',
-              required: true,
-              schema: { type: 'string' }
-            }
+            { $ref: '#/components/parameters/routeId' }
           ],
           responses: { 200: { description: 'Schedules returned' } }
         }
@@ -132,6 +159,9 @@ function createOpenApi() {
           tags: ['Bookings'],
           summary: 'List bookings for a user',
           security: [{ bearerAuth: [] }],
+          parameters: [
+            { $ref: '#/components/parameters/userId' }
+          ],
           responses: { 200: { description: 'Bookings returned' } }
         }
       },
@@ -140,6 +170,9 @@ function createOpenApi() {
           tags: ['Bookings'],
           summary: 'Cancel a booking',
           security: [{ bearerAuth: [] }],
+          parameters: [
+            { $ref: '#/components/parameters/bookingId' }
+          ],
           responses: { 200: { description: 'Booking cancelled' } }
         }
       },
